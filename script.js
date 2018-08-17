@@ -62,14 +62,48 @@ function validateForm(evt) {
         document.getElementById('errorText').style.display = '';
         document.getElementsByTagName('form')[0].submit();
     }
-    //Else is no longer encessary due to try/catch
-    // else {
-    //     // document.getElementById('errorText').innerHTML = 'Please fix the incorrect fields';
-    //     // document.getElementById('errorText').style.display = 'block';
-    //     scroll(0,0);
-    // }
 }
 
+//Functions added for this project start here
+//Remove fallback placeholder text
+function zeroPlaceholder() {
+    var addressBox = document.getElementById('addrinput');
+    addressBox.style.color = 'black';
+    if (addressBox.value === addressBox.placeholder) {
+        addressBox.value = '';
+    }
+}
+
+//Restore placeholder text if box contains no user entry
+function checkPlaceholder() {
+    var addressBox = document.getElementById('addrinput');
+    if (addressBox.value === '') {
+        addressBox.style.color = 'rgb(178,184,183)';
+        addressBox.value === addressBox.placeholder
+    }
+}
+
+//Add placeholder text for browsers that don't support placeholder attribute
+function generatePlaceholder() {
+    if (!Modernizr.input.placeholder) {
+        var addressBox = document.getElementById('addrinput');
+        addressBox.value = addressBox.placeholder;
+        addressBox.style.color = 'rgb(178,184,183)';
+        if (addressBox.addEventListener) {
+            addressBox.addEventListener('focus', zeroPlaceholder, false);
+            addressBox.addEventListener('blur', checkPlaceholder, false);
+        } else if (addressBox.attachEvent) {
+            addressBox.attachEvent('onfocus', zeroPlaceholder);
+            addressBox.attachEvent('onblur', checkPlaceholder);
+        }
+    }
+}
+
+//Run initial form configuration functions
+function setUpPage() {
+    createEventListeners();
+    generatePlaceholder();
+}
 
 //Function to create event listeners
 function createEventListeners() {
@@ -82,9 +116,9 @@ function createEventListeners() {
     }
 }
 
-//Add load event listeners
+//Add load event listeners - Update for Project
 if (window.addEventListener) {
-    window.addEventListener('load', createEventListeners, false);
+    window.addEventListener('load', setUpPage, false);
 } else if (window.attachEvent) {
-    window.attachEvent('onload', createEventListeners);
+    window.attachEvent('onload', setUpPage);
 }
