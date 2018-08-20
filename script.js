@@ -65,6 +65,7 @@ function validateForm(evt) {
 }
 
 //Functions added for this project start here
+//Functions work only for IE8, and we do not have access to IE8
 //Remove fallback placeholder text
 function zeroPlaceholder() {
     var addressBox = document.getElementById('addrinput');
@@ -79,7 +80,7 @@ function checkPlaceholder() {
     var addressBox = document.getElementById('addrinput');
     if (addressBox.value === '') {
         addressBox.style.color = 'rgb(178,184,183)';
-        addressBox.value === addressBox.placeholder
+        addressBox.value === addressBox.placeholder;
     }
 }
 
